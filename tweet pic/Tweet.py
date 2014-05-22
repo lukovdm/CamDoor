@@ -1,4 +1,4 @@
-import tweepy
+import tweepy, time, os
 
 consumer_token = "AbvWXhLW9dLt7pOcqGyWAqkcN"
 consumer_secret = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
@@ -23,5 +23,9 @@ while True:
     f = open("../pic/tweet", "w")
     for line in lines:
         if line[0] == "$":
-            api.update_status(line[1:])
-            f.write()
+            api.update_with_media("../pic/" + line[1:], status="Someone walked throuth the door at " + time.strftime('%Y/%m/%d %H:%M:%S'))
+            try:
+                os.remove("../pic/" + line[1:])
+            except OSError:
+                print "file to tweet not found"
+            f.write(line[1:])
