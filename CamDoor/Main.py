@@ -98,7 +98,6 @@ while run:
         elif pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) > tipPoint + 0.05:
             picture = True
 
-    print pixels
     text2 = Font.render(str(round(pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.1), 3) * 100) + "%", 1, (0, 0, 0))
     text4 = Font.render(str(round(tipPoint * 100)) + "%", 1, (0, 0, 0))
 
