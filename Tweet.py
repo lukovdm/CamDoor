@@ -1,37 +1,36 @@
-import tweepy, time, os
+from twython import Twython
+import time, os
 
-consumer_token = "AbvWXhLW9dLt7pOcqGyWAqkcN"
-consumer_secret = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
+APP_KEY = "AbvWXhLW9dLt7pOcqGyWAqkcN"
+APP_SECRET = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
 
-auth = tweepy.OAuthHandler(consumer_token, consumer_secret)
-print "succesfully openend twiiter"
-
-with open("../pic/config", "r") as f:
+with open("pic/config", "r") as f:
     if not f.read() == "":
         f.seek(0)
         if f.readline()[0] == "#":
             f.seek(0)
-            key = f.readline()[1:]
-            secret = f.readline()[1:]
-            auth.set_access_token(key, secret)
-
-    api = tweepy.API(auth)
+            OAUTH_TOKEN = f.readline()[1:]
+            OAUTH_TOKEN_SECRET = f.readline()[1:]
+            twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+            print "successfully opened twitter"
 
 while True:
-    f = open("../pic/tweet", "r")
+    f = open("pic/tweet", "r")
     lines = f.readlines()
     f.close()
 
-    f = open("../pic/tweet", "w")
+    f = open("pic/tweet", "w")
     for line in lines:
         if line[0] == "$":
             print "tweeted file: " + line[1:]
-            fn = os.path.abspath("../pic/" + line[1:-1])
+            fn = os.path.abspath("pic/" + line[1:-1])
             print fn
             try:
-                api.update_with_media(fn, status="Someone walked throuth the door at " + line[1:])
-                os.remove("../pic/" + line[1:])
-            except OSError, tweepy.error.TweepError:
+                photo = open(fn, "rb")
+                twitter.update_status_with_media(status="Someone walked throuth the door at " + line[1:], media=photo)
+                os.remove("pic/" + line[1:])
+                photo.close()
+            except OSError, Twython.TwythonError:
                 print "file to tweet not found"
                 f.write(line)
             else:

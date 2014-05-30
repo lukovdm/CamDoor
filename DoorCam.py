@@ -36,7 +36,7 @@ tipPoint = 0.4
 Font = pygame.font.Font(None, 20)
 
 while run:
-    f = open("../pic/tweet", "a")
+    f = open("pic/tweet", "a")
     drawSurf.fill((0, 0, 0, 0))
     cam.get_image(snap)
     checkColor = pygame.transform.average_color(snap, pygame.Rect(checkPos[0] + 2, checkPos[1] - 2, 5, 5))
@@ -91,9 +91,9 @@ while run:
                                (0, 0, 0), 0)
     if canTake:
         if pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) <= tipPoint and picture:
-            picName = time.strftime("../pic/%d,%m,%Y_%H:%M:%S.png")
+            picName = time.strftime("pic/%d,%m,%Y_%H:%M:%S.png")
             pygame.image.save(snap, picName)
-            f.write("$" + picName[7:] + "\n")
+            f.write("$" + picName[4:] + "\n")
             picture = False
             pygame.draw.rect(drawSurf, (255, 255, 255), surf.get_rect())
         elif pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) > tipPoint + 0.05:

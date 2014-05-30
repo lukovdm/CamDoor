@@ -1,26 +1,31 @@
-import tweepy
+from twython import Twython
 
-with open("../pic/config", "w") as f:
-    consumer_token = "AbvWXhLW9dLt7pOcqGyWAqkcN"
-    consumer_secret = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
+APP_KEY = "AbvWXhLW9dLt7pOcqGyWAqkcN"
+APP_SECRET = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
 
-    auth = tweepy.OAuthHandler(consumer_token, consumer_secret)
+with open("pic/config", "w") as f:
+    twitter = Twython(APP_KEY, APP_SECRET)
     try:
-        redirect_url = auth.get_authorization_url()
-    except tweepy.TweepError:
+        auth = twitter.get_authentication_tokens()
+    except Twython.TwythonAuthError:
         print 'Error! Failed to get request token.'
 
-    print redirect_url
+    OAUTH_TOKEN = auth['oauth_token']
+    OAUTH_TOKEN_SECRET = auth['oauth_token_secret']
+
+    print auth["auth_url"]
     verifier = raw_input("Verifier: ")
 
+    twitter = Twython(APP_KEY, APP_SECRET,
+                  OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+
     try:
-        auth.get_access_token(verifier)
-    except tweepy.TweepError:
+        final_step = twitter.get_authorized_tokens(verifier)
+    except Twython.TwythonAuthError:
         print 'Error! Failed to get access token.'
 
-    key = auth.access_token.key
-    secret = auth.access_token.secret
-    f.write("#" + key + "\n")
-    f.write("#" + secret + "\n")
+    OAUTH_TOKEN = final_step['oauth_token']
+    OAUTH_TOKEN_SECRET = final_step['oauth_token_secret']
 
-    api = tweepy.API(auth)
+    f.write("#" + OAUTH_TOKEN + "\n")
+    f.write("#" + OAUTH_TOKEN_SECRET + "\n")
