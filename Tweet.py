@@ -27,7 +27,7 @@ while True:
             print fn
             try:
                 photo = open(fn, "rb")
-                twitter.update_status_with_media(status="Someone walked throuth the door at " + line[1:], media=photo)
+                twitter.update_status_with_media(status="Someone walked through the door at " + line[1:], media=photo)
                 os.remove("pic/" + line[1:])
                 photo.close()
             except OSError, Twython.TwythonError:
