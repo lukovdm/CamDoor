@@ -19,17 +19,21 @@ with open("../pic/config", "r") as f:
 
 while True:
     f = open("../pic/tweet", "r")
-    lines = f.readline()
+    lines = f.readlines()
     f.close()
 
     f = open("../pic/tweet", "w")
     for line in lines:
         if line[0] == "$":
-            print "tweeted file " + line[1:]
-            api.update_with_media("../pic/" + line[1:], status="Someone walked throuth the door at " + time.strftime('%Y/%m/%d %H:%M:%S'))
+            print "tweeted file: " + line[1:]
+            fn = os.path.abspath("../pic/" + line[1:-1])
+            print fn
             try:
+                api.update_with_media(fn, status="Someone walked throuth the door at " + line[1:])
                 os.remove("../pic/" + line[1:])
-            except OSError:
+            except OSError, tweepy.error.TweepError:
                 print "file to tweet not found"
-            f.write(line[1:])
+                f.write(line)
+            else:
+                f.write(line[1:])
     f.close()

@@ -91,8 +91,9 @@ while run:
                                (0, 0, 0), 0)
     if canTake:
         if pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) <= tipPoint and picture:
-            pygame.image.save(snap, time.strftime("../pic/%d,%m,%Y_%H:%M:%S.png"))
-            f.write("$" + time.strftime("%d,%m,%Y_%H:%M:%S.png") + "\n")
+            picName = time.strftime("../pic/%d,%m,%Y_%H:%M:%S.png")
+            pygame.image.save(snap, picName)
+            f.write("$" + picName[7:] + "\n")
             picture = False
             pygame.draw.rect(drawSurf, (255, 255, 255), surf.get_rect())
         elif pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) > tipPoint + 0.05:
