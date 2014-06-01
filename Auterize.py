@@ -1,7 +1,7 @@
 from twython import Twython
 
-APP_KEY = "AbvWXhLW9dLt7pOcqGyWAqkcN"
-APP_SECRET = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
+APP_KEY = "184zUq2bFNsVkLJNALmvKImVR"
+APP_SECRET = "PannWHgUEmXCPcergzBbIjkA6AZICDgB6CSXuhYF0yFiwoOFBI"
 
 with open("pic/config", "w") as f:
     twitter = Twython(APP_KEY, APP_SECRET)

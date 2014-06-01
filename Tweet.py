@@ -1,16 +1,18 @@
 from twython import Twython
 import time, os
 
-APP_KEY = "AbvWXhLW9dLt7pOcqGyWAqkcN"
-APP_SECRET = "pxsXjJqQdlOH7HUmwdPy9q3EJiYDImKikDnmRD2bU655zGPe44"
+#http://www.mieni.nl/
+
+APP_KEY = "184zUq2bFNsVkLJNALmvKImVR"
+APP_SECRET = "PannWHgUEmXCPcergzBbIjkA6AZICDgB6CSXuhYF0yFiwoOFBI"
 
 with open("pic/config", "r") as f:
     if not f.read() == "":
         f.seek(0)
         if f.readline()[0] == "#":
             f.seek(0)
-            OAUTH_TOKEN = f.readline()[1:]
-            OAUTH_TOKEN_SECRET = f.readline()[1:]
+            OAUTH_TOKEN = f.readline()[1:-1]
+            OAUTH_TOKEN_SECRET = f.readline()[1:-1]
             twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
             print "successfully opened twitter"
 
