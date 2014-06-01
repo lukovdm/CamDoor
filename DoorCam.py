@@ -3,6 +3,7 @@ import pygame.camera
 from pygame.constants import *
 import math
 import time
+import os
 
 pygame.init()
 pygame.camera.init()
@@ -32,6 +33,7 @@ canTake = False
 move = False
 run = True
 tipPoint = 0.4
+forcePic = False
 
 Font = pygame.font.Font(None, 20)
 
@@ -79,6 +81,8 @@ while run:
             if event.key == K_PERIOD and tipPoint < 1:
                 tipPoint += 0.1
                 tipPoint = round(tipPoint, 1)
+            if event.key == K_p:
+                forcePic = True
             if event.key == K_ESCAPE:
                 pygame.quit()
                 run = False
@@ -90,11 +94,12 @@ while run:
     pixels = pygame.transform.threshold(surf, thrSurf, checkColor, (thr, thr, thr),
                                (0, 0, 0), 0)
     if canTake:
-        if pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) <= tipPoint and picture:
+        if (pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) <= tipPoint and picture) or forcePic:
             picName = time.strftime("pic/%d,%m,%Y_%H:%M:%S.png")
             pygame.image.save(snap, picName)
             f.write("$" + picName[4:] + "\n")
             picture = False
+            forcePic = False
             pygame.draw.rect(drawSurf, (255, 255, 255), surf.get_rect())
         elif pixels / (thrSurf.get_height() * thrSurf.get_width() + 0.0001) > tipPoint + 0.05:
             picture = True
@@ -111,6 +116,8 @@ while run:
     surf.blit(text4, (0, 45))
 
     pygame.display.flip()
+    f.flush()
+    os.fsync(f.fileno())
     f.close()
 
 __author__ = 'luko'

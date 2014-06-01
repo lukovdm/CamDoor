@@ -30,11 +30,13 @@ while True:
             try:
                 photo = open(fn, "rb")
                 twitter.update_status_with_media(status="Someone walked through the door at " + line[1:], media=photo)
-                os.remove("pic/" + line[1:])
+                os.remove("pic/" + line[1:-1])
                 photo.close()
             except OSError, Twython.TwythonError:
                 print "file to tweet not found"
                 f.write(line)
             else:
                 f.write(line[1:])
+            f.flush()
+            os.fsync(f.fileno())
     f.close()
