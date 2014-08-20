@@ -1,3 +1,9 @@
 CamDoor/.idea
-tweet pic/.idea
+tweet 
+pic/.idea
 
+
+.idea
+*.py~
+pic/tweet~
+pic/log~
